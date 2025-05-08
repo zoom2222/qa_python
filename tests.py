@@ -10,9 +10,7 @@ class TestBooksCollector:
     # обязательно указывать префикс test_
     # дальше идет название метода, который тестируем add_new_book_
     # затем, что тестируем add_two_books - добавление двух книг
-    def test_add_new_book_add_two_books(self):
-        # создаем экземпляр (объект) класса BooksCollector
-        collector = BooksCollector()
+    def test_add_new_book_add_two_books(self, collector):
 
         # добавляем две книги
         collector.add_new_book('Гордость и предубеждение и зомби')
@@ -26,20 +24,17 @@ class TestBooksCollector:
     # чтобы тесты были независимыми в каждом из них создавай отдельный экземпляр класса BooksCollector()
 
 
-    def test_set_book_genre(self):
-        collector = BooksCollector()
+    def test_set_book_genre(self, collector):
         collector.add_new_book("Сталкер")
         collector.set_book_genre("Сталкер", "Фантастика")
         assert collector.get_book_genre("Сталкер") == "Фантастика"
 
 
-    def test_get_book_genre_non_existent(): # полностью изменил этот тест
-        collector = BooksCollector()
+    def test_get_book_genre_non_existent(self, collector): # полностью изменил этот тест
         assert collector.get_book_genre("Несуществующая книга") is None
 
 
-    def test_get_books_with_specific_genre(self):
-        collector = BooksCollector()
+    def test_get_books_with_specific_genre(self, collector):
         collector.add_new_book("Книга 1")
         collector.add_new_book("Книга 2")
         collector.set_book_genre("Книга 1", "Ужасы")
@@ -50,8 +45,7 @@ class TestBooksCollector:
         assert "Книга 2" in horror_books
 
 
-    def test_get_books_for_children(self):
-        collector = BooksCollector()
+    def test_get_books_for_children(self, collector):
         collector.add_new_book("Мультфильм")
         collector.add_new_book("Ужастик")
         collector.set_book_genre("Мультфильм", "Мультфильмы")
@@ -61,23 +55,20 @@ class TestBooksCollector:
         assert "Ужастик" not in children_books
 
 
-    def test_book_add_in_favorites(self):
-        collector = BooksCollector()
+    def test_book_add_in_favorites(self, collector):
         collector.add_new_book("Любимая книга")
         collector.add_book_in_favorites("Любимая книга")
         assert "Любимая книга" in collector.get_list_of_favorites_books()
 
 
-    def test_delete_book_from_favorites(self):
-        collector = BooksCollector()
+    def test_delete_book_from_favorites(self, collector):
         collector.add_new_book("Нелюбимая книга")
         collector.add_book_in_favorites("Нелюбимая книга")
         collector.delete_book_from_favorites("Нелюбимая книга")
         assert "Нелюбимая книга" not in collector.get_list_of_favorites_books()
 
 
-    def test_get_list_of_favorites_books(self):
-        collector = BooksCollector()
+    def test_get_list_of_favorites_books(self, collector):
         collector.add_new_book("Избранная книга 1")
         collector.add_new_book("Избранная книга 2")
         collector.add_book_in_favorites("Избранная книга 1")
@@ -96,8 +87,7 @@ class TestBooksCollector:
         ("Комедии", True)
     ]
 )
-def test_get_books_for_children_param(genre, is_for_children):
-    collector = BooksCollector()
+def test_get_books_for_children_param(collector, genre, is_for_children):
     book = "Kids Book"
     collector.add_new_book(book)
     collector.set_book_genre(book, genre)
@@ -113,8 +103,7 @@ def test_get_books_for_children_param(genre, is_for_children):
         (None, None)
     ]
 )
-def test_get_book_genre_param(input_genre, expected):
-    collector = BooksCollector()
+def test_get_book_genre_param(collector,input_genre, expected):
     book = "Test Book"
     input_genre is not None and collector.add_new_book(book)
     input_genre is not None and collector.set_book_genre(book, input_genre)
@@ -127,8 +116,7 @@ def test_get_book_genre_param(input_genre, expected):
         ("remove", 0)
     ]
 )
-def test_add_and_remove_books_from_favorites(action, expected_count):
-    collector = BooksCollector()
+def test_add_and_remove_books_from_favorites(collector,action, expected_count):
     book = "Favorite Book"
     collector.add_new_book(book)
     action == "add" and collector.add_book_in_favorites(book)
