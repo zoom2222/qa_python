@@ -30,7 +30,18 @@ class TestBooksCollector:
         assert collector.get_book_genre("Сталкер") == "Фантастика"
 
 
-    def test_get_book_genre_non_existent(self, collector): # полностью изменил этот тест
+    def test_get_book_genre(self, collector): # заменил тест на возвращающий жанр, указанный для книги в словаре
+        collector.books_genre = {
+            "Гарри поттер": "Фантастика",
+            "Оно": "Ужасы",
+            "Шерлок Холмс": "Детективы"
+        }
+        assert collector.get_book_genre("Гарри Поттер") == "Фантастика"
+        assert collector.get_book_genre("Оно") == "Ужасы"
+        assert collector.get_book_genre("Шерлок Холмс") == "Детективы"
+
+
+    def test_get_book_genre_non_existent(self, collector):
         assert collector.get_book_genre("Несуществующая книга") is None
 
 
